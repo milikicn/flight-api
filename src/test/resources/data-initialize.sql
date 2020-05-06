@@ -1,0 +1,2 @@
+INSERT INTO city (id, name, country, description) VALUES
+  	(1, 'Zaria', 'Nigeria', 'Zaria is a major city in Kaduna State in northern Nigeria, as well as being a Local Government Area. Formerly known as Zazzau, it was one of the original seven Hausa city-states.');
