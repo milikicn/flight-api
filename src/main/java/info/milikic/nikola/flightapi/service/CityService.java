@@ -11,8 +11,6 @@ public interface CityService {
 
     City createCity(CityRequest cityRequest);
 
-    City findCityByNameAnfFetchComments(String name, String country);
-
     Comment createComment(Integer cityId, CommentRequest commentRequest);
 
     Comment updateComment(Integer cityId, Integer commentId, CommentRequest commentUpdateRequest);
@@ -23,5 +21,5 @@ public interface CityService {
 
     List<City> searchCities(String query, Integer maxComments);
 
-    City getOrCreateCity(CityRequest cityRequest);
+    Integer getCityId(CityRequest cityRequest);
 }

@@ -11,16 +11,12 @@ import info.milikic.nikola.flightapi.service.exceptions.CityAlreadyExistExceptio
 import info.milikic.nikola.flightapi.service.exceptions.NotFoundException;
 import info.milikic.nikola.flightapi.vo.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CityServiceImpl implements CityService {
@@ -42,12 +38,6 @@ public class CityServiceImpl implements CityService {
 
     private boolean cityExists(String name, String country) {
         return cityRepository.findByNameAndCountry(name, country).isPresent();
-    }
-
-    @Override
-    @Transactional
-    public City findCityByNameAnfFetchComments(String name, String country) {
-        return cityRepository.findByNameAndCountryFetchComments(name, country).orElseThrow(() -> new NotFoundException(ErrorCode.CITY_NOT_FOUND, MessageFormat.format("City with name {0} and country {1} not found", name, country)));
     }
 
     @Override
@@ -104,14 +94,8 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    @Retryable(
-            value = { DataIntegrityViolationException.class },
-            maxAttempts = 3,
-            backoff = @Backoff(delay = 1000))
-    public City getOrCreateCity(CityRequest cityRequest) {
-        Optional<City> cityOpt = cityRepository.findByNameAndCountry(cityRequest.getName(), cityRequest.getCountry());
-        City city = cityOpt.orElseGet(() -> cityRepository.save(toCity(cityRequest)));
-        return city;
+    public Integer getCityId(CityRequest cityRequest) {
+        return cityRepository.findCityIdByNameAndCountry(cityRequest.getName(), cityRequest.getCountry()).orElse(null);
     }
 
     private City toCity(CityRequest cityRequest) {

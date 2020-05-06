@@ -19,6 +19,7 @@ target/
 *.iml
 *.ipr
 
-flight-api.log
+/logs/**
 /src/main/resources/application-mysql.yaml
+/src/main/resources/data.sql
 /docker-compose.yml

@@ -25,4 +25,4 @@ logging:
     org.springframework.security: DEBUG
     info.milikic.nikola.flightapi: DEBUG
   file:
-    name: flight-api.log
+    name: logs/flight-api.log

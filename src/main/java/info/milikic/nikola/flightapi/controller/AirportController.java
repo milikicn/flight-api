@@ -47,12 +47,6 @@ public class AirportController {
 
         JobExecution jobExecution = jobLauncher.run(job, new JobParameters(maps));
 
-        log.info("JobExecution: " + jobExecution.getStatus());
-        log.info("Batch is Running...");
-        while (jobExecution.isRunning()) {
-            log.info("...");
-        }
-
         return jobExecution.getStatus();
     }
 }

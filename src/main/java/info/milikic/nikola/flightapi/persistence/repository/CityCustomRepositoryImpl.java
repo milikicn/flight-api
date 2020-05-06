@@ -22,9 +22,7 @@ public class CityCustomRepositoryImpl implements CityCustomRepository {
         Query query = em.createNamedQuery("City.getAllCitiesFetchCommentsWithLimit");
         query.setParameter("maxComments", maxComments);
 
-        List<City> cities = parseResultsIntoCities(query);
-
-        return cities;
+        return parseResultsIntoCities(query);
     }
 
     @Override
@@ -33,9 +31,7 @@ public class CityCustomRepositoryImpl implements CityCustomRepository {
         query.setParameter("maxComments", maxComments);
         query.setParameter("query", "%"+searchQuery+"%");
 
-        List<City> cities = parseResultsIntoCities(query);
-
-        return cities;
+        return parseResultsIntoCities(query);
     }
 
     private List<City> parseResultsIntoCities(Query query) {

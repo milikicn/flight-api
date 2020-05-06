@@ -15,7 +15,6 @@ import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import javax.sql.DataSource;
 
@@ -34,7 +33,7 @@ public class AirportImportConfig {
         return new FlatFileItemReaderBuilder<AirportImportDto>()
                 .name("airportItemReader")
                 .delimited()
-                .names("id", "name", "city", "country", "iata", "icao", "latitude", "longitude", "altitude", "timezone", "dst", "tzTime", "type", "source")
+                .names("id", "name", "city", "country", "iata", "icao", "latitude", "longitude", "altitude", "timezoneStr", "dst", "tzTime", "type", "source")
                 .fieldSetMapper(new BeanWrapperFieldSetMapper<>() {{
                     setTargetType(AirportImportDto.class);
                 }})
@@ -70,13 +69,10 @@ public class AirportImportConfig {
     @Bean
     public Step step1(JdbcBatchItemWriter<AirportImportDto> writer) {
         return stepBuilderFactory.get("step1")
-                .<AirportImportDto, AirportImportDto>chunk(10)
+                .<AirportImportDto, AirportImportDto>chunk(20)
                 .reader(reader())
                 .processor(processor())
                 .writer(writer)
-                .faultTolerant()
-                .skipLimit(20)
-                .skip(DataIntegrityViolationException.class)
                 .build();
     }
 

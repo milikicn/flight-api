@@ -16,7 +16,7 @@ public class AirportImportDto {
     private Double latitude;
     private Double longitude;
     private Double altitude;
-    private Double timezone;
+    private String timezoneStr;
     private String dst;
     private String tzTime;
     private String type;
@@ -24,5 +24,6 @@ public class AirportImportDto {
 
     // resolved field
     private Integer cityId;
+    private Double timezone;
 
 }
